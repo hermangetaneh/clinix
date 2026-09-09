@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Clinix Hospital Management"
+description = "A polished healthcare operations workspace for managing patients, doctors, appointments, medical records, billing, and analytics with a real backend API."
+version = "1.0.0"
+id = "artifacts/clinix"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20912
+
+[services.development]
+run = "pnpm --filter @workspace/clinix run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/clinix", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/clinix/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20912"
+BASE_PATH = "/"
